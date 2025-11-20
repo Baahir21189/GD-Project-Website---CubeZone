@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CubeZone © | Official Dealers of Speed Cubes in UAE</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@400;500;600&family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            height: 15vh;
+            padding: 0 5rem;
+            position: sticky;
+            top: 0;
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            color: white;
+            background-color: #001229;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav > ul > li > a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav > ul > li > a:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            display: block !important;
+            flex-direction: column !important;
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #002350;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            padding-left: 2rem;
+        }
+
+        .cart-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-link svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .cart-count {
+            position: absolute;
+            display: none;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Hero Video Section */
+        .hero-video-section {
+            position: relative;
+            height: 85vh;
+            overflow: hidden;
+        }
+
+        .hero-video-container {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+
+        .hero-video {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 18, 41, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .video-overlay h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .video-overlay .shop-btn {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .video-overlay .shop-btn:hover {
+            background-color: #5a6fd8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll-buttons {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .scroll-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Featured Products Section */
+        .featured-products-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: white;
+        }
+
+        .featured-products-container h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #001229;
+        }
+
+        .featured-products-container p {
+            color: rgb(54, 54, 54);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-products {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .featured-product {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .featured-product:hover {
+            transform: translateY(-5px);
+        }
+
+        .featured-product img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .featured-product-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .featured-product h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #001229;
+        }
+
+        .featured-product p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .price-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-btn p {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #001229;
+            margin: 0;
+        }
+
+        .price-btn button {
+            background-color: #001229;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .price-btn button:hover {
+            background-color: #667eea;
+        }
+
+        /* New Arrivals Section */
+        .new-arrivals-section {
+            padding: 4rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #001229;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #667eea;
+        }
+
+        .new-arrivals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card-content {
+            padding: 1.5rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #001229;
+        }
+
+        .product-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #001229;
+            margin-bottom: 1rem;
+        }
+
+        .product-card button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .product-card button:hover {
+            background-color: #5a6fd8;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #001229;
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            gap: 3rem;
+        }
+
+        .about-us, .subscribe-container {
+            flex: 1;
+        }
+
+        .about-us h3, .subscribe-container h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .about-us p, .subscribe-container p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+
+        .subscribe-textfield {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .subscribe-textfield input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .subscribe-textfield input::placeholder {
+            color: #aaa;
+        }
+
+        .subscribe-textfield button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-textfield button:hover {
+            background-color: #5a6fd8;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom p {
+            color: #aaa;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            header {
+                padding: 0 2rem;
+                gap: 2rem;
+            }
+            
+            .hero-video-container {
+                flex-direction: column;
+            }
+            
+            .hero-video {
+                height: 50%;
+            }
+            
+            .featured-products {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-top {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .hero-video-section {
+                height: auto;
+            }
+            
+            .video-overlay h2 {
+                font-size: 2rem;
+            }
+            
+            .new-arrivals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index_2.html"> 
+            <img src="logo.png" alt="Logo" width="auto" height="180"> 
+        </a>
+
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#">Store</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="cube_3x3.html">3x3</a></li>
+                        <li><a href="cube_4x4.html">4x4</a></li>
+                        <li><a href="cube_5x5.html">5x5</a></li>
+                        <li><a href="new_arrivals.html">New Arrivals</a></li>
+                        <li><a href="exclusive.html">Limited Offers</a></li>
+                    </ul>
+                </li>
+                <li><a href="about_us.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="policy.html">Support</a></li>
+                <li>
+                    <a href="#" class="cart-link" id="cartLink">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Video Section -->
+        <section class="hero-video-section">
+            <div class="hero-video-container">
+                <div class="hero-video">
+                    <video muted loop autoplay playsinline>
+                        <source src="hero_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <h2>Premium Speed Cubes</h2>
+                        <button class="shop-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="hero-video">
+                    <video muted loop autoplay playsinline>
+                        <source src="hero-2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <h2>Expert Cubing Gear</h2>
+                        <button class="shop-btn">Shop Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-buttons">
+                <button class="scroll-btn" id="scrollLeft">←</button>
+                <button class="scroll-btn" id="scrollRight">→</button>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section class="featured-products-container">
+            <h3>Special Featured Products</h3>  
+            <p>only for limited days</p>
+
+            <div class="featured-products">
+                <div class="featured-product">
+                    <img src="https://www.gancube.com/cdn/shop/files/gan356-me-christmas-9.jpg?v=1762162022&width=600" alt="exclusive-1">
+                    <div class="featured-product-content">
+                        <h3>GAN356 M E Christmas Edition</h3>
+                        <p>Limited Christmas Edition Features a charming Christmas-themed design that adds festive joy to every solve. Wrapped in a unique seasonal style that truly stands out from the regular versions. It is a Perfect Gift Choice for cubers, friends, or anyone who enjoys a challenge.</p>
+                        <div class="price-btn">
+                            <p>AED 93.65</p>
+                            <a href="cube_3x3.html"><button>Shop Now</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="featured-product">
+                    <img src="https://cubuzzle.com/cdn/shop/files/TornadoV3PioneerUV.10.png?v=1723890306" alt="exclusive-2">
+                    <div class="featured-product-content">
+                        <h3>QiYi X-MAN TORNADO V3 M</h3>
+                        <p>The QiYi X-Man Tornado V3 M Pioneer is a premium 3x3 speed cube designed for competitive cubers seeking top-tier performance and customization. The MagLev Technology in this product produces Smooth, fast turns with reduced friction with enhanced stability and control.</p>
+                        <div class="price-btn">
+                            <p>AED 169</p>
+                            <a href="cube_3x3.html"><button>Shop Now</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Arrivals Section -->
+        <section class="new-arrivals-section">
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="new-arrivals-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/1_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 1">
+                    <div class="product-card-content">
+                        <h3>GAN 11 M Pro</h3>
+                        <p>Flagship magnetic 3x3 with adjustable magnets</p>
+                        <div class="product-price">AED 249</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/2_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 2">
+                    <div class="product-card-content">
+                        <h3>MoYu RS3 M 2020</h3>
+                        <p>Budget-friendly magnetic 3x3 with great performance</p>
+                        <div class="product-price">AED 89</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/3_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 3">
+                    <div class="product-card-content">
+                        <h3>QiYi MS Magnetic</h3>
+                        <p>Magnetic 3x3 with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 119</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/4_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 4">
+                    <div class="product-card-content">
+                        <h3>GAN 251 M Leap</h3>
+                        <p>Premium magnetic 2x2 with adjustable magnets</p>
+                        <div class="product-price">AED 159</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/5_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 5">
+                    <div class="product-card-content">
+                        <h3>MoYu AoSu WR M</h3>
+                        <p>Magnetic 4x4 with excellent stability and speed</p>
+                        <div class="product-price">AED 199</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/6_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 6">
+                    <div class="product-card-content">
+                        <h3>YJ MGC 5x5</h3>
+                        <p>Magnetic 5x5 with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 229</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/7_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 7">
+                    <div class="product-card-content">
+                        <h3>GAN Megaminx M</h3>
+                        <p>Magnetic megaminx with adjustable magnets</p>
+                        <div class="product-price">AED 279</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/8_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 8">
+                    <div class="product-card-content">
+                        <h3>MoYu Pyraminx</h3>
+                        <p>Magnetic pyraminx with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 99</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 9 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/9_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 9">
+                    <div class="product-card-content">
+                        <h3>QiYi Skewb Magnetic</h3>
+                        <p>Magnetic skewb with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 89</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Product 10 -->
+                <div class="product-card">
+                    <img src="https://cuboss.com/cdn/shop/products/10_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="Product 10">
+                    <div class="product-card-content">
+                        <h3>GAN Square-1 M</h3>
+                        <p>Magnetic square-1 with adjustable magnets</p>
+                        <div class="product-price">AED 199</div>
+                        <button>Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="about-us">
+                <h3>WHO ARE WE?</h3>
+                <p>CubeZone is your premier destination for professional speed cubes and cubing accessories. We are authorized dealers of the world's leading speed cube brands including GAN, MoYu, and QiYi. Our mission is to provide cubers of all skill levels with the highest quality products and exceptional customer service to help you achieve your personal best times.</p>
+            </div>
+
+            <div class="subscribe-container">
+                <h3>NEWSLETTER</h3>
+                <p>Subscribe for exclusive offers, original stories, events and more.</p>
+
+                <div class="subscribe-textfield">
+                    <input type="text" required placeholder="Enter your email">
+                    <button type="button">Subscribe</button> 
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright ©2025. CubeZone All Rights Reserved.</p>
+            <p> 
+                <a href="about_us.html">About us</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="policy.html">Our policies</a>
+            </p>  
+        </div>
+    </footer>
+
+    <script>
+        // Hero video scroll functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroContainer = document.querySelector('.hero-video-container');
+            const scrollLeftBtn = document.getElementById('scrollLeft');
+            const scrollRightBtn = document.getElementById('scrollRight');
+            
+            // Add 1-second pause before looping videos
+            const videos = document.querySelectorAll('.hero-video video');
+            videos.forEach(video => {
+                video.addEventListener('ended', function() {
+                    setTimeout(() => {
+                        video.currentTime = 0;
+                        video.play();
+                    }, 1000);
+                });
+            });
+            
+            // Scroll buttons functionality
+            scrollLeftBtn.addEventListener('click', function() {
+                heroContainer.scrollBy({
+                    left: -window.innerWidth,
+                    behavior: 'smooth'
+                });
+            });
+            
+            scrollRightBtn.addEventListener('click', function() {
+                heroContainer.scrollBy({
+                    left: window.innerWidth,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

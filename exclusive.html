@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CubeZone © | Product Grid with Modal</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@400;500;600&family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            height: 15vh;
+            padding: 0 5rem;
+            position: sticky;
+            top: 0;
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            color: white;
+            background-color: #001229;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav > ul > li > a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav > ul > li > a:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            display: block !important;
+            flex-direction: column !important;
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #002350;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            padding-left: 2rem;
+        }
+
+        .cart-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-link svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            min-width: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Product Grid Section */
+        .products-section {
+            padding: 4rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #001229;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #667eea;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card-content {
+            padding: 1.5rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #001229;
+        }
+
+        .product-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #001229;
+            margin-bottom: 1rem;
+        }
+
+        .product-card button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .product-card button:hover {
+            background-color: #5a6fd8;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #001229;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .modal-body {
+                flex-direction: row;
+                gap: 2rem;
+            }
+        }
+
+        .modal-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-image img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-details h2 {
+            font-size: 1.8rem;
+            color: #001229;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #001229;
+        }
+
+        .modal-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .modal-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-features h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #001229;
+        }
+
+        .modal-features ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .modal-features li {
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .modal-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-to-cart {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: #5a6fd8;
+        }
+
+        .btn-close-modal {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        .btn-close-modal:hover {
+            background-color: #e1e1e1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #001229;
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            gap: 3rem;
+        }
+
+        .about-us, .subscribe-container {
+            flex: 1;
+        }
+
+        .about-us h3, .subscribe-container h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .about-us p, .subscribe-container p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+
+        .subscribe-textfield {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .subscribe-textfield input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .subscribe-textfield input::placeholder {
+            color: #aaa;
+        }
+
+        .subscribe-textfield button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-textfield button:hover {
+            background-color: #5a6fd8;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom p {
+            color: #aaa;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            header {
+                padding: 0 2rem;
+                gap: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-top {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html"> 
+            <img src="logo.png" alt="Logo" width="auto" height="180"> 
+        </a>
+
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#">Store</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="cube_3x3.html">3x3</a></li>
+                        <li><a href="cube_4x4.html">4x4</a></li>
+                        <li><a href="cube_5x5.html">5x5</a></li>
+                        <li><a href="new_arrivals.html">New Arrivals</a></li>
+                        <li><a href="exclusive.html">Limited Offers</a></li>
+                    </ul>
+                </li>
+                <li><a href="about_us.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="policy.html">Support</a></li>
+                <li>
+                    <a href="#" class="cart-link" id="cartLink">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Products Grid Section -->
+        <section class="products-section">
+            <h2 class="section-title">Our Products</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card" data-product-id="1">
+                    <img src="https://cuboss.com/cdn/shop/products/1_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="GAN 11 M Pro">
+                    <div class="product-card-content">
+                        <h3>GAN 11 M Pro</h3>
+                        <p>Flagship magnetic 3x3 with adjustable magnets</p>
+                        <div class="product-price">AED 249</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card" data-product-id="2">
+                    <img src="https://cuboss.com/cdn/shop/products/2_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="MoYu RS3 M 2020">
+                    <div class="product-card-content">
+                        <h3>MoYu RS3 M 2020</h3>
+                        <p>Budget-friendly magnetic 3x3 with great performance</p>
+                        <div class="product-price">AED 89</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card" data-product-id="3">
+                    <img src="https://cuboss.com/cdn/shop/products/3_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="QiYi MS Magnetic">
+                    <div class="product-card-content">
+                        <h3>QiYi MS Magnetic</h3>
+                        <p>Magnetic 3x3 with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 119</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card" data-product-id="4">
+                    <img src="https://cuboss.com/cdn/shop/products/4_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="GAN 251 M Leap">
+                    <div class="product-card-content">
+                        <h3>GAN 251 M Leap</h3>
+                        <p>Premium magnetic 2x2 with adjustable magnets</p>
+                        <div class="product-price">AED 159</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card" data-product-id="5">
+                    <img src="https://cuboss.com/cdn/shop/products/5_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="MoYu AoSu WR M">
+                    <div class="product-card-content">
+                        <h3>MoYu AoSu WR M</h3>
+                        <p>Magnetic 4x4 with excellent stability and speed</p>
+                        <div class="product-price">AED 199</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card" data-product-id="6">
+                    <img src="https://cuboss.com/cdn/shop/products/6_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="YJ MGC 5x5">
+                    <div class="product-card-content">
+                        <h3>YJ MGC 5x5</h3>
+                        <p>Magnetic 5x5 with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 229</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card" data-product-id="7">
+                    <img src="https://cuboss.com/cdn/shop/products/7_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="GAN Megaminx M">
+                    <div class="product-card-content">
+                        <h3>GAN Megaminx M</h3>
+                        <p>Magnetic megaminx with adjustable magnets</p>
+                        <div class="product-price">AED 279</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card" data-product-id="8">
+                    <img src="https://cuboss.com/cdn/shop/products/8_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000" alt="MoYu Pyraminx">
+                    <div class="product-card-content">
+                        <h3>MoYu Pyraminx</h3>
+                        <p>Magnetic pyraminx with smooth turning and corner cutting</p>
+                        <div class="product-price">AED 99</div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Product Image">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modalTitle">Product Title</h2>
+                    <div class="modal-price" id="modalPrice">AED 0</div>
+                    <p class="modal-description" id="modalDescription">Product description will appear here.</p>
+                    
+                    <div class="modal-features">
+                        <h3>Key Features</h3>
+                        <ul id="modalFeatures">
+                            <li>Feature 1</li>
+                            <li>Feature 2</li>
+                            <li>Feature 3</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-add-to-cart" id="addToCartBtn">Add to Cart</button>
+                        <button class="btn-close-modal" id="closeModalBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="about-us">
+                <h3>WHO ARE WE?</h3>
+                <p>CubeZone is your premier destination for professional speed cubes and cubing accessories. We are authorized dealers of the world's leading speed cube brands including GAN, MoYu, and QiYi. Our mission is to provide cubers of all skill levels with the highest quality products and exceptional customer service to help you achieve your personal best times.</p>
+            </div>
+
+            <div class="subscribe-container">
+                <h3>NEWSLETTER</h3>
+                <p>Subscribe for exclusive offers, original stories, events and more.</p>
+
+                <div class="subscribe-textfield">
+                    <input type="text" required placeholder="Enter your email">
+                    <button type="button">Subscribe</button> 
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright ©2025. CubeZone All Rights Reserved.</p>
+            <p> 
+                <a href="about_us.html">About us</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="policy.html">Our policies</a>
+            </p>  
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = {
+            1: {
+                title: "GAN 11 M Pro",
+                price: "AED 249",
+                image: "https://cuboss.com/cdn/shop/products/1_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The GAN 11 M Pro is the flagship magnetic 3x3 speed cube with fully adjustable magnets. It features GAN's proprietary GES Pro+ spring system and offers unparalleled customization for competitive cubers.",
+                features: [
+                    "Fully adjustable magnetic system",
+                    "GAN GES Pro+ spring system",
+                    "Ultra-smooth turning with minimal friction",
+                    "Corner-to-core magnetic positioning",
+                    "Dual adjustment system for tension and elasticity"
+                ]
+            },
+            2: {
+                title: "MoYu RS3 M 2020",
+                price: "AED 89",
+                image: "https://cuboss.com/cdn/shop/products/2_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The MoYu RS3 M 2020 is a budget-friendly magnetic 3x3 speed cube that delivers exceptional performance for its price point. Perfect for beginners and intermediate cubers.",
+                features: [
+                    "Magnetic positioning system",
+                    "Smooth and stable turning",
+                    "Excellent corner cutting",
+                    "Durable construction",
+                    "Great value for money"
+                ]
+            },
+            3: {
+                title: "QiYi MS Magnetic",
+                price: "AED 119",
+                image: "https://cuboss.com/cdn/shop/products/3_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The QiYi MS Magnetic is a premium 3x3 speed cube with magnetic positioning for enhanced stability and control. It offers smooth turning and excellent corner cutting capabilities.",
+                features: [
+                    "Magnetic positioning system",
+                    "Smooth and fast turning",
+                    "Excellent corner cutting",
+                    "Anti-pop mechanism",
+                    "Premium feel and performance"
+                ]
+            },
+            4: {
+                title: "GAN 251 M Leap",
+                price: "AED 159",
+                image: "https://cuboss.com/cdn/shop/products/4_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The GAN 251 M Leap is a premium magnetic 2x2 speed cube with adjustable magnets. It features GAN's innovative magnetic positioning system for ultimate control and stability.",
+                features: [
+                    "Adjustable magnetic system",
+                    "GAN GES spring system",
+                    "Ultra-fast turning",
+                    "Excellent corner cutting",
+                    "Premium build quality"
+                ]
+            },
+            5: {
+                title: "MoYu AoSu WR M",
+                price: "AED 199",
+                image: "https://cuboss.com/cdn/shop/products/5_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The MoYu AoSu WR M is a magnetic 4x4 speed cube designed for world-record performance. It offers excellent stability and speed for advanced cubers.",
+                features: [
+                    "Magnetic positioning system",
+                    "Excellent stability and control",
+                    "Smooth turning mechanism",
+                    "Anti-pop design",
+                    "Professional-grade performance"
+                ]
+            },
+            6: {
+                title: "YJ MGC 5x5",
+                price: "AED 229",
+                image: "https://cuboss.com/cdn/shop/products/6_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The YJ MGC 5x5 is a magnetic 5x5 speed cube with smooth turning and excellent corner cutting. It's designed for cubers who want professional performance at an affordable price.",
+                features: [
+                    "Magnetic positioning system",
+                    "Smooth and stable turning",
+                    "Excellent corner cutting",
+                    "Durable construction",
+                    "Great value for money"
+                ]
+            },
+            7: {
+                title: "GAN Megaminx M",
+                price: "AED 279",
+                image: "https://cuboss.com/cdn/shop/products/7_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The GAN Megaminx M is a magnetic megaminx with adjustable magnets. It features GAN's proprietary technology for ultimate customization and performance.",
+                features: [
+                    "Adjustable magnetic system",
+                    "GAN GES spring system",
+                    "Ultra-smooth turning",
+                    "Excellent corner cutting",
+                    "Premium build quality"
+                ]
+            },
+            8: {
+                title: "MoYu Pyraminx",
+                price: "AED 99",
+                image: "https://cuboss.com/cdn/shop/products/8_8c1c6d66-2b6c-4b3c-8f3b-3b3b3b3b3b3b.jpg?v=1614150000",
+                description: "The MoYu Pyraminx is a magnetic pyraminx with smooth turning and corner cutting. It's perfect for pyraminx enthusiasts looking for a competitive edge.",
+                features: [
+                    "Magnetic positioning system",
+                    "Smooth and fast turning",
+                    "Excellent corner cutting",
+                    "Anti-pop mechanism",
+                    "Great value for money"
+                ]
+            }
+        };
+
+        // DOM Elements
+        const modal = document.getElementById('productModal');
+        const modalClose = document.getElementById('modalClose');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const cartCount = document.getElementById('cartCount');
+        const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        // Modal Elements
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalFeatures = document.getElementById('modalFeatures');
+
+        // Cart state
+        let cartItems = 0;
+
+        // Open modal when product card is clicked
+        productCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't open modal if the click was on the "View Details" button
+                if (e.target.classList.contains('view-details-btn')) {
+                    return;
+                }
+                
+                const productId = card.getAttribute('data-product-id');
+                openModal(productId);
+            });
+        });
+
+        // Open modal when "View Details" button is clicked
+        viewDetailsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the card click event from firing
+                const productId = btn.closest('.product-card').getAttribute('data-product-id');
+                openModal(productId);
+            });
+        });
+
+        // Open modal function
+        function openModal(productId) {
+            const product = products[productId];
+            
+            if (product) {
+                modalImage.src = product.image;
+                modalImage.alt = product.title;
+                modalTitle.textContent = product.title;
+                modalPrice.textContent = product.price;
+                modalDescription.textContent = product.description;
+                
+                // Clear existing features
+                modalFeatures.innerHTML = '';
+                
+                // Add new features
+                product.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    modalFeatures.appendChild(li);
+                });
+                
+                // Update add to cart button data attribute
+                addToCartBtn.setAttribute('data-product-id', productId);
+                
+                // Show modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+        }
+
+        // Close modal function
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Close modal events
+        modalClose.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the modal content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Add to cart functionality
+        addToCartBtn.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            
+            // Increment cart count
+            cartItems++;
+            cartCount.textContent = cartItems;
+            
+            // Show cart count if it was hidden
+            if (cartCount.style.display === 'none') {
+                cartCount.style.display = 'block';
+            }
+            
+            // Optional: Add animation to cart icon
+            const cartIcon = document.querySelector('.cart-link');
+            cartIcon.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                cartIcon.style.transform = 'scale(1)';
+            }, 300);
+            
+            // Close modal after adding to cart
+            setTimeout(closeModal, 500);
+            
+            // In a real application, you would also:
+            // 1. Add the product to a cart array/object
+            // 2. Update localStorage or send to server
+            // 3. Update cart total and other cart details
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

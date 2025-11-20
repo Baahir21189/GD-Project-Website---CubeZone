@@ -1,0 +1,195 @@
+*{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15rem;
+            
+            height: 15vh;
+            padding: 0 5rem;
+
+            position: sticky;
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            
+            color: white;
+            background-color: #001229; 
+
+
+        }
+
+        /*Container Styling*/
+        nav{
+            
+            /* background-color: rgb(34, 34, 34); */
+
+        }
+        /*Layout control (for child li's)*/
+        nav ul{
+            display: flex;
+            flex-direction: row;
+
+            justify-content: center;
+            align-items: center;
+            
+            gap: 3rem;
+            
+            list-style: none;
+            
+        }
+
+        nav li{
+            position:relative
+        }
+
+         nav > ul > li > a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav > ul > li > a:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+
+            display: block !important;
+            flex-direction: column !important;
+
+            z-index: 100; /*IMP*/
+        }
+
+         .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #002350;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            
+            padding-left: 2rem;
+        }
+
+
+        /* Cart icon styles */
+        .cart-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-link svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        /* CART COUNT BADGE - This is what shows the number */
+        .cart-count {
+            position: absolute;
+            display: none; /* Hidden when count is 0 */
+
+            top: -8px;
+            right: -8px;
+
+            background-color: #ff4444;
+            color: white;
+
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            min-width: 20px;
+
+            text-align: center;
+            
+        }
+
+        .hero-container{
+            display: flex;
+
+            height:85vh;/*no width*/
+
+            background-color: #ff4444;
+        }
+
+        main{
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            gap:5rem; 
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+        }
+
+        .featured-products-container{
+            display: flex; 
+            align-items: center; 
+            flex-direction: column; 
+            text-align: center;
+
+        }
+        .featured-products-container h3{
+            font-size: 2rem;
+        }
+        .featured-products-container p{
+            color: rgb(54, 54, 54); 
+            font-size: 1rem;
+        }
+
+        .featured-products{
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .featured-product{
+            display: flex;
+            flex-direction: column;
+        }
+    
+

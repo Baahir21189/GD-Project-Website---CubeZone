@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> Our Policies | CubeZone ©</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <style>
+
+        *{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15rem;
+            
+            height: 15vh;
+            padding: 0 5rem;
+
+            position: sticky;
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            
+            color: white;
+            background-color: #001229; 
+
+
+        }
+
+        /*Container Styling*/
+        nav{
+            
+            /* background-color: rgb(34, 34, 34); */
+
+        }
+        /*Layout control (for child li's)*/
+        nav ul{
+            display: flex;
+            flex-direction: row;
+
+            justify-content: center;
+            align-items: center;
+            
+            gap: 3rem;
+            
+            list-style: none;
+            
+        }
+
+        nav li{
+            position:relative
+        }
+
+         nav > ul > li > a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav > ul > li > a:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+
+            display: block !important;
+            flex-direction: column !important;
+
+            z-index: 100; /*IMP*/
+        }
+
+         .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #002350;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            
+            padding-left: 2rem;
+        }
+
+
+        /* Cart icon styles */
+        .cart-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-link svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        /* CART COUNT BADGE - This is what shows the number */
+        .cart-count {
+            position: absolute;
+            display: none; /* Hidden when count is 0 */
+
+            top: -8px;
+            right: -8px;
+
+            background-color: #ff4444;
+            color: white;
+
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            min-width: 20px;
+
+            text-align: center;
+            
+        }
+
+        .our-policies {
+            background-color: #ffffff; 
+            color: #1a1a1a; 
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 2.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            font-family: 'Rajdhani', 'Exo 2', 'Orbitron', sans-serif;
+            line-height: 1.8;
+        }
+
+        /* POLICY CARD */
+        .policy-card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* MAIN HEADINGS */
+        .our-policies h3 {
+            font-size: 2rem;
+            color: #001229; /* dark blue */
+            margin-bottom: 1rem;
+            border-left: 6px solid #6C63FF; /* purple/blue accent */
+            padding-left: 1rem;
+        }
+
+        /* SUB HEADINGS */
+        .our-policies h4 {
+            font-size: 1.4rem;
+            color: #B22222; /* crimson/red accent */
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        /* PARAGRAPHS */
+        .our-policies p {
+            font-size: 1.1rem;
+            color: #222222; 
+            margin-bottom: 1rem;
+        }
+
+        /* LISTS */
+        .our-policies ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .our-policies ul li {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* SECTIONS SPACING */
+        .policy-section {
+            margin-bottom: 2rem;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media screen and (max-width: 768px) {
+            .our-policies {
+                padding: 2rem 1.5rem;
+                max-width: 95%;
+            }
+
+            .our-policies h3 {
+                font-size: 1.7rem;
+            }
+
+            .our-policies h4 {
+                font-size: 1.2rem;
+            }
+
+            .policy-card {
+                padding: 1.5rem;
+            }
+        }
+
+                footer {
+            background-color: #001229;
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            gap: 3rem;
+        }
+
+        .about-us, .subscribe-container {
+            flex: 1;
+        }
+
+        .about-us h3, .subscribe-container h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .about-us p, .subscribe-container p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+
+        .subscribe-textfield {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .subscribe-textfield input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .subscribe-textfield input::placeholder {
+            color: #aaa;
+        }
+
+        .subscribe-textfield button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-textfield button:hover {
+            background-color: #5a6fd8;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom p {
+            color: #aaa;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            header {
+                padding: 0 2rem;
+                gap: 2rem;
+            }
+            
+            .hero-video-container {
+                flex-direction: column;
+            }
+            
+            .hero-video {
+                height: 50%;
+            }
+            
+            .featured-products {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-top {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .hero-video-section {
+                height: auto;
+            }
+            
+            .video-overlay h2 {
+                font-size: 2rem;
+            }
+            
+            .new-arrivals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+        
+    </style>
+
+</head>
+<body>
+
+    <header>
+      <a href="index.html"> 
+          <img src="logo.png" alt="Logo" width="auto" height="180"> 
+      </a>
+
+      <nav>
+          <ul>
+              <li class="dropdown">
+                  <a class="dropdown-toggle" href="#">Store</a>
+                  <ul class="dropdown-menu">
+                      <li><a href="cube_3x3.html">3x3</a></li>
+                      <li><a href="cube_4x4.html">4x4</a></li>
+                      <li><a href="cube_5x5.html">5x5</a></li>
+                      <li><a href="new_arrivals.html">New Arrivals</a></li>
+                      <li><a href="exclusive.html">Limited Offers</a></li>
+ 
+                  </ul>
+              </li>
+              <li><a href="about_us.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="policy.html">Support</a></li>
+              <li>
+                  <a href="#" class="cart-link" id="cartLink">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="9" cy="21" r="1"/>
+                          <circle cx="20" cy="21" r="1"/>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                      </svg>
+                      <span class="cart-count" id="cartCount">0</span>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+  </header>
+
+ 
+
+        <body>
+
+
+            <main>
+        <div class="our-policies">
+
+            <div class="policy-card">
+                <h3>Shipping Policy</h3>
+                <ul>
+                    <li>We deliver our products to all of UAE via Emirates Post.</li>
+                    <li>Orders are processed within 1-3 business days, excluding weekends and holidays.</li>
+                    <li>Daily cut-off: 5 PM Dubai Time. Orders after will ship the next business day.</li>
+                    <li>Delivery fees shown at checkout. Free for orders 200+ AED.</li>
+                    <li>Provide accurate address & contact details to avoid delays.</li>
+                    <li>Cash on Delivery max: 3,000 AED.</li>
+                </ul>
+            </div>
+
+            <div class="policy-card">
+                <h3>Refund Policy</h3>
+                <ul>
+                    <li>Returns accepted within 3 days of receipt. Items must be unused, in original condition & packaging.</li>
+
+
+                    <li>After inspection, you will receive an email about refund approval. Refunds processed via original payment method in 5-10 days.</li>
+
+
+                    <li>Mail your product to the Information Department or contact the call center.</li>
+                </ul>
+            </div>
+
+        </div>
+</main>
+
+
+
+            <footer>
+            <div class="footer-top">
+                <div class="about-us">
+                    <h3>WHO ARE WE?</h3>
+                    <p>CubeZone is your premier destination for professional speed
+                        cubes and cubing accessories. We are authorized dealers of
+                        the world's leading speed cube brands including GAN, MoYu, and QiYi. Our mission is to provide cubers of all skill levels with the highest quality 
+                        products and exceptional customer 
+                        service to help you achieve your personal best times.</p>
+                </div>
+
+                <div class="subscribe-container">
+                    <h3>NEWSLETTER</h3>
+                    <p>Subscribe for exclusive offers, original stories, 
+                        events and more.</p>
+
+                    <div class="subscribe-textfield">
+                        <input type="text" required placeholder="Enter your email">
+                        <button type="button">Subscribe</button> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Copyright ©2025. CubeZone All Rights Reserved.</p>
+                <p> 
+                    <a>About us</a>
+                    <a>Feedback</a>
+                    <a>Our policies</a>
+                </p>  
+            </div>
+
+        </footer>   
+
+    </body>
+</html>
+
+
+
+
+
+
+
